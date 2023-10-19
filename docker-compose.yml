@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    container_name: ${DOCKER_REGISTRY-}sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "SqlServer2019!"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - sqlserver
