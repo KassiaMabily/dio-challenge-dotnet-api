@@ -56,3 +56,22 @@ Esse é o schema (model) de Tarefa, utilizado para passar para os métodos que e
 
 ## Solução
 O código está pela metade, e você deverá dar continuidade obedecendo as regras descritas acima, para que no final, tenhamos um programa funcional. Procure pela palavra comentada "TODO" no código, em seguida, implemente conforme as regras acima.
+
+
+### Docker
+In this application I used a Linux container, so I enforced a HTTPS. To do this we have to generate a trusted certificate, replace `$CREDENTIAL_PLACEHOLDER$` within your credential key and then put in `docker-composer.override.yml` file
+
+> **Reference:** https://learn.microsoft.com/pt-br/aspnet/core/security/docker-compose-https?view=aspnetcore-7.0
+
+**Generate certificate for windows**
+
+```powershell
+> dotnet dev-certs https -ep "$env:USERPROFILE\.aspnet\https\aspnetapp.pfx"  -p $CREDENTIAL_PLACEHOLDER$
+
+> dotnet dev-certs https --trust
+```
+
+
+```bash
+$ docker-compose -f docker-compose.yml -f docker-compose.override.yml -p todo up -d --build
+```
